@@ -25,51 +25,56 @@ class _MapPageState extends State<MapPage> {
   }
 
   @override
-
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   toolbarHeight: 150,
-      //   actions: [],
-      // ),
-      body:BlocBuilder<MyUbicationBloc, MyUbicationState>(
-            builder: (context, state) => Center(child: _createMap(state))),
-      
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          BtnUbication()
-        ],
+    return Stack(children: <Widget>[
+      Container(
+        width: width,
+        height: height,
+        color: Colors.white,
       ),
-    
-    );
+      BlocBuilder<MyUbicationBloc, MyUbicationState>(
+          builder: (context, state) => Center(child: _createMap(state))),
+    ]);
   }
 
   Widget _createMap(MyUbicationState state) {
-  final mapBloc = BlocProvider.of<MapBloc>(context);
-  mapBloc.add(OnLocationUpdate (state.ubication));
-
+    final mapBloc = BlocProvider.of<MapBloc>(context);
+    mapBloc.add(OnLocationUpdate(state.ubication));
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+    BorderRadiusGeometry borderRadius = BorderRadius.all(Radius.circular(30));
     if (!state.isUbication)
       return CircularProgressIndicator(
         strokeWidth: 2,
       );
     final cameraPosition = CameraPosition(target: state.ubication, zoom: 15);
-    return Container(
-      
-      child: GoogleMap(
-        initialCameraPosition: cameraPosition,
-        zoomControlsEnabled: false,
-        buildingsEnabled: false,
-        onMapCreated: mapBloc.initMap, 
-        // polylines: ,
-        // (GoogleMapController controller) {
-        //   bloc.initMap(controller);
 
-        // },
-        polylines: mapBloc.state.polylines.values.toSet(),
-      ),
-    );
+    return Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          height: height * 0.8,
+          width: width,
+          padding: EdgeInsets.all(1),
+          decoration: BoxDecoration(
+              // shape: BoxShape.circle,
+              color: Colors.green,
+              borderRadius: borderRadius),
+          child: GoogleMap(
+            padding: EdgeInsets.all(1),
+            initialCameraPosition: cameraPosition,
+            zoomControlsEnabled: false,
+            buildingsEnabled: false,
+            onMapCreated: mapBloc.initMap,
+            // polylines: ,
+            // (GoogleMapController controller) {
+            //   bloc.initMap(controller);
+
+            // },
+            polylines: mapBloc.state.polylines.values.toSet(),
+          ),
+        ));
   }
 }
