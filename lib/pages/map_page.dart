@@ -29,8 +29,14 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: BlocBuilder<MyUbicationBloc, MyUbicationState>(
-          builder: (context, state) => Center(child: _createMap(state))),
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   toolbarHeight: 150,
+      //   actions: [],
+      // ),
+      body:BlocBuilder<MyUbicationBloc, MyUbicationState>(
+            builder: (context, state) => Center(child: _createMap(state))),
+      
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -42,22 +48,28 @@ class _MapPageState extends State<MapPage> {
   }
 
   Widget _createMap(MyUbicationState state) {
-  final bloc = BlocProvider.of<MapBloc>(context);
+  final mapBloc = BlocProvider.of<MapBloc>(context);
+  mapBloc.add(OnLocationUpdate (state.ubication));
 
     if (!state.isUbication)
       return CircularProgressIndicator(
         strokeWidth: 2,
       );
     final cameraPosition = CameraPosition(target: state.ubication, zoom: 15);
-    return GoogleMap(
-      initialCameraPosition: cameraPosition,
-      zoomControlsEnabled: false,
-      buildingsEnabled: false,
-      onMapCreated: bloc.initMap, 
-      // (GoogleMapController controller) {
-      //   bloc.initMap(controller);
+    return Container(
+      
+      child: GoogleMap(
+        initialCameraPosition: cameraPosition,
+        zoomControlsEnabled: false,
+        buildingsEnabled: false,
+        onMapCreated: mapBloc.initMap, 
+        // polylines: ,
+        // (GoogleMapController controller) {
+        //   bloc.initMap(controller);
 
-      // },
+        // },
+        polylines: mapBloc.state.polylines.values.toSet(),
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter_google_maps/bloc/my_ubication/my_ubication_bloc.dart';
 // import 'package:flutter_google_maps/theme/avocado_theme.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,6 +16,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   MapBloc() : super(MapState());
 
   GoogleMapController _mapController;
+
+  Polyline _myRoute = new Polyline(
+    polylineId: PolylineId('myRoute'),
+    width: 3
+    );
 
   void initMap (GoogleMapController controller){
 
@@ -46,7 +52,18 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
       yield state.copyWith(mapReady: true);
     }
+    else if (event is OnLocationUpdate){
+      
+      print('Nueva ubicacion:  ${event.ubication}');
+      List<LatLng> points = [...this._myRoute.points, event.ubication];
+      this._myRoute = this._myRoute.copyWith(pointsParam: points);
+
+      final currentPolylines = state.polylines;
+      currentPolylines['myRoute'] = this._myRoute;
+      
+      yield state.copyWith(polylines: currentPolylines);
+    }
     
-    // TODO: implement mapEventToState
+
   }
 }
