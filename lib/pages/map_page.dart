@@ -25,31 +25,26 @@ class _MapPageState extends State<MapPage> {
   }
 
   @override
-
   Widget build(BuildContext context) {
-
     return Scaffold(
       // appBar: AppBar(
       //   elevation: 0,
       //   toolbarHeight: 150,
       //   actions: [],
       // ),
-      body:BlocBuilder<MyUbicationBloc, MyUbicationState>(
-            builder: (context, state) => Center(child: _createMap(state))),
-      
+      body: BlocBuilder<MyUbicationBloc, MyUbicationState>(
+          builder: (context, state) => Center(child: _createMap(state))),
+
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          BtnUbication()
-        ],
+        children: <Widget>[BtnUbication()],
       ),
-    
     );
   }
 
   Widget _createMap(MyUbicationState state) {
-  final mapBloc = BlocProvider.of<MapBloc>(context);
-  mapBloc.add(OnLocationUpdate (state.ubication));
+    final mapBloc = BlocProvider.of<MapBloc>(context);
+    mapBloc.add(OnLocationUpdate(state.ubication));
 
     if (!state.isUbication)
       return CircularProgressIndicator(
@@ -57,18 +52,20 @@ class _MapPageState extends State<MapPage> {
       );
     final cameraPosition = CameraPosition(target: state.ubication, zoom: 15);
     return Container(
-      
-      child: GoogleMap(
-        initialCameraPosition: cameraPosition,
-        zoomControlsEnabled: false,
-        buildingsEnabled: false,
-        onMapCreated: mapBloc.initMap, 
-        // polylines: ,
-        // (GoogleMapController controller) {
-        //   bloc.initMap(controller);
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+        child: GoogleMap(
+          initialCameraPosition: cameraPosition,
+          zoomControlsEnabled: false,
+          buildingsEnabled: false,
+          onMapCreated: mapBloc.initMap,
+          // polylines: ,
+          // (GoogleMapController controller) {
+          //   bloc.initMap(controller);
 
-        // },
-        polylines: mapBloc.state.polylines.values.toSet(),
+          // },
+          polylines: mapBloc.state.polylines.values.toSet(),
+        ),
       ),
     );
   }
