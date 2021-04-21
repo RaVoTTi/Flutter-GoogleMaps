@@ -20,7 +20,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: Colors.white
+          primaryColor: Colors.white,
+          buttonColor: Color(0xff00939d),
+          primaryIconTheme: IconThemeData(color: Color(0xff00939d), size: 40),
+          
           ),
         title: 'Material App',
         home: Scaffold(
