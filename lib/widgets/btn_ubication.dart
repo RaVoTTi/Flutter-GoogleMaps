@@ -18,7 +18,7 @@ class BtnUbication extends StatelessWidget {
           onPressed: () {  
             mapBloc.moveCamera(myUbicationBloc.state.ubication);
           }, 
-          icon: Icon(Icons.my_location),
+          icon: Icon(Icons.my_location, color: Color(0xff00939d),),
 
         ),
       )
