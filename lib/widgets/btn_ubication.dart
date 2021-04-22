@@ -12,13 +12,13 @@ class BtnUbication extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom:10),
       child: CircleAvatar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xff00939d),
         maxRadius: 30,
         child: IconButton(
           onPressed: () {  
             mapBloc.moveCamera(myUbicationBloc.state.ubication);
           }, 
-          icon: Icon(Icons.my_location, color: Color(0xff00939d),),
+          icon: Icon(Icons.my_location, color: Colors.white, size: 30,),
 
         ),
       )

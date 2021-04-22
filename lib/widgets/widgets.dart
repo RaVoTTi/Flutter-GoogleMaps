@@ -5,3 +5,4 @@ import 'package:flutter_google_maps/bloc/my_ubication/my_ubication_bloc.dart';
 
 part 'btn_ubication.dart';
 part 'text.dart';
+part 'side_bar.dart';

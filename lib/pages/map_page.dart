@@ -57,7 +57,7 @@ class _MapPageState extends State<MapPage> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[BtnUbication()],
         ),
-        endDrawer: Drawer(),
+        endDrawer: SideBar(),
       ),
     );
   }
@@ -81,7 +81,7 @@ class _MapPageState extends State<MapPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          TextTitle(text1: 'MAPA', text2: 'Malargüe'.toUpperCase()),
+          TextTitle(text1: 'CUYO', text2: 'BUS'),
           SizedBox(height: _sizeBox,),
           Container(
             decoration: BoxDecoration(
